@@ -1,7 +1,14 @@
-var headings = document.evaluate("//p[contains(., '[[[rastreio.net-RAJ24WP3E]]]')]", document, null, XPathResult.ANY_TYPE, null);
-var thisHeading = headings.iterateNext();
+var elements = document.evaluate("//p[starts-with(., '[[[rastreio.net-') and contains(., ']]]')]", document, null, XPathResult.ANY_TYPE, null);
+var element = elements.iterateNext();
+var content = element.textContent;
+var regex = /\[\[\[rastreio\.net-[A-Za-z0-9]+\]\]\]$/;
 
-console.log(thisHeading);
-console.log(thisHeading.textContent);
+if (regex.test(content)) {
+    content = content.replaceAll('[', '');
+    content = content.replaceAll(']', '');
+    
+    var occurences = content.split('-');
+    var clientId = occurences[1];
 
-thisHeading.innerHTML = '<div id="rastreioDiv" data-user="J24WP3E"></div><script id="rastreioScript" data-user="J24WP3E"></script>';
+    element.innerHTML = `<div id="rastreioDiv" data-user="${clientId}"></div><script id="rastreioScript" data-user="${clientId}"></script>`;
+}
