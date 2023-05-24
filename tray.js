@@ -8,7 +8,7 @@ if (regex.test(content)) {
     content = content.replaceAll(']', '');
     
     var occurences = content.split('-');
-    var clientId = occurences[1];
+    var clientId = occurences[1].slice(2);
 
     element.innerHTML = `<div id="rastreioDiv" data-user="${clientId}"></div><script id="rastreioScript" data-user="${clientId}"></script>`;
 }
